@@ -374,7 +374,7 @@ const INTENTS = [
     category: "Career Services",
     keywords: ["career","internship","resume","résumé","cv","job","interview","career fair","networking","handshake","graduate school","mentorship","employer","recruit","work","professional","pathways to providence","create a resume","how do i make a resume","write a resume","build a resume","improve my resume","experience","experiences","improve my cv","extracurricular","volunteer","leadership experience","get experience","activities for resume","resume tips","what to put on resume"],
     response: "The Pathways to Providence Career Services team is here to support every stage of your professional development — from crafting a compelling résumé to navigating your job search and graduate school applications. Through our Handshake platform, students have access to thousands of job and internship postings, career fair registrations, and one-on-one advising appointments.",
-    url: "https://career-services.providence.edu/",
+    url: "https://chirico-career-center.providence.edu/",
     urlLabel: "Visit Career Services",
     escalation: "Career Services (Pathways to Providence) · Harkins Hall · (401) 865-2393 · careers@providence.edu"
   },
@@ -396,9 +396,9 @@ const INTENTS = [
   },
   {
     category: "Study Abroad",
-    keywords: ["study abroad","international","semester abroad","exchange","global studies","rome","oxford","abroad","financial aid abroad","credit transfer","visa","passport","language requirement","global"],
+    keywords: ["study abroad","international","semester abroad","exchange","global studies","rome","oxford","abroad","financial aid abroad","credit transfer","visa","passport","language requirement","global","study abroad deadline","abroad deadline","when is the study abroad deadline","apply to study abroad","study abroad application","global education deadline","semester abroad deadline","abroad program deadline","study abroad cost","study abroad requirements"],
     response: "Providence College's Office of Global Studies offers students an extraordinary opportunity to deepen their education through immersive international experiences. From semester-long programs in Rome, Oxford, and beyond to short-term faculty-led trips, the College provides a wide range of options to suit different academic goals and budgets. Financial aid may be applicable toward approved programs, and academic credits are transferable in accordance with established guidelines.",
-    url: "https://global-studies.providence.edu/",
+    url: "https://global-education.providence.edu/",
     urlLabel: "Explore Study Abroad",
     escalation: "Office of Global Studies · Harkins Hall · (401) 865-2474 · globalprograms@providence.edu"
   },
@@ -415,11 +415,20 @@ const INTENTS = [
 // ── Matching engine ───────────────────────────────────────────────────────────
 function matchIntent(text) {
   const lower = text.toLowerCase();
+
+  // Hard override: any mention of "abroad" or "global education" goes directly to Study Abroad
+  if (lower.includes("abroad") || lower.includes("global education") || lower.includes("study abroad")) {
+    return INTENTS.find(i => i.category === "Study Abroad");
+  }
+
   let best = null, bestScore = 0;
   for (const intent of INTENTS) {
     let score = 0;
     for (const kw of intent.keywords) {
-      if (lower.includes(kw)) score += kw.split(" ").length; // multi-word keywords score higher
+      if (lower.includes(kw)) {
+        const words = kw.split(" ").length;
+        score += words * words; // quadratic: 1-word=1pt, 2-word=4pt, 3-word=9pt
+      }
     }
     if (score > bestScore) { bestScore = score; best = intent; }
   }
