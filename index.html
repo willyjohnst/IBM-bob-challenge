@@ -359,6 +359,12 @@ const INTENTS = [
 // ── Matching engine ───────────────────────────────────────────────────────────
 function matchIntent(text) {
   const lower = text.toLowerCase();
+
+  // Hard override: any mention of "abroad" or "global education" goes directly to Study Abroad
+  if (lower.includes("abroad") || lower.includes("global education") || lower.includes("study abroad")) {
+    return INTENTS.find(i => i.category === "Study Abroad");
+  }
+
   let best = null, bestScore = 0;
   for (const intent of INTENTS) {
     let score = 0;
