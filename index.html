@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Providence College Assistant</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      width: 100%;
+      background: #002147;
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    header .logo-circle {
+      width: 42px; height: 42px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 15px; color: #002147;
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; }
+    header p  { font-size: 12px; opacity: 0.75; margin-top: 1px; }
+
+    /* ── Chat container ── */
+    .chat-wrap {
+      width: 100%;
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 70px);
+      padding: 0 16px 16px;
+    }
+
+    /* ── Suggested prompts ── */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px 0 10px;
+    }
+    .suggestions button {
+      background: #fff;
+      border: 1px solid #c8d0da;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #002147;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .suggestions button:hover { background: #e8edf5; border-color: #002147; }
+
+    /* ── Message feed ── */
+    #feed {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 10px 0;
+      scroll-behavior: smooth;
+    }
+
+    .msg {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      max-width: 90%;
+      animation: fadeUp 0.2s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .msg.user  { align-self: flex-end; flex-direction: row-reverse; }
+    .msg.bot   { align-self: flex-start; }
+
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .msg.bot  .avatar { background: #002147; color: #fff; }
+    .msg.user .avatar { background: #d4a827; color: #002147; }
+
+    .bubble {
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 100%;
+    }
+    .msg.user .bubble {
+      background: #002147;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .msg.bot .bubble {
+      background: #fff;
+      color: #1f2328;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .bubble .response-title {
+      font-weight: 700;
+      color: #002147;
+      font-size: 13px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .bubble p { margin-bottom: 8px; }
+    .bubble p:last-child { margin-bottom: 0; }
+    .bubble .link-btn {
+      display: inline-block;
+      margin-top: 8px;
+      background: #002147;
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .bubble .link-btn:hover { background: #003580; }
+    .bubble .escalation {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: #f5f7fa;
+      border-left: 3px solid #d4a827;
+      border-radius: 0 6px 6px 0;
+      font-size: 12.5px;
+      color: #444;
+    }
+    .bubble .escalation strong { color: #002147; }
+
+    /* ── Typing indicator ── */
+    .typing .bubble {
+      display: flex; gap: 5px; align-items: center;
+      padding: 12px 16px;
+    }
+    .typing .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #aaa;
+      animation: blink 1.2s infinite;
+    }
+    .typing .dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.3; transform: scale(0.9); }
+      40%            { opacity: 1;   transform: scale(1.1); }
+    }
+
+    /* ── Input bar ── */
+    .input-bar {
+      display: flex;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #dde1e7;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1px solid #c8d0da;
+      border-radius: 24px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    #userInput:focus { border-color: #002147; }
+    #sendBtn {
+      background: #002147;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #sendBtn:hover { background: #003580; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-circle">PC</div>
+  <div>
+    <h1>Providence College Assistant</h1>
+    <p>Ask me anything about PC — admissions, housing, dining, events, and more.</p>
+  </div>
+</header>
+
+<div class="chat-wrap">
+  <div class="suggestions" id="suggestions">
+    <button onclick="ask('How do I apply to Providence College?')">How do I apply?</button>
+    <button onclick="ask('What financial aid is available?')">Financial aid</button>
+    <button onclick="ask('How do I register for classes?')">Register for classes</button>
+    <button onclick="ask('What restaurants are near campus?')">Restaurants nearby</button>
+    <button onclick="ask('Can I study abroad?')">Study abroad</button>
+    <button onclick="ask('When is the next Friars game?')">Friars games</button>
+    <button onclick="ask('What day trips can I do from Providence?')">Day trips</button>
+    <button onclick="ask('How do I reset my password?')">IT help</button>
+  </div>
+
+  <div id="feed"></div>
+
+  <div class="input-bar">
+    <input id="userInput" type="text" placeholder="Ask a question about Providence College…" autocomplete="off" />
+    <button id="sendBtn" onclick="handleSend()">Send</button>
+  </div>
+</div>
+
+<script>
+// ── Intent taxonomy data ─────────────────────────────────────────────────────
+const INTENTS = [
+  {
+    category: "Admissions",
+    keywords: ["apply","application","deadline","admission","admissions","sat","act","gpa","acceptance","tour","visit","transfer","early decision","early action","common app","requirements","prospective"],
+    response: "Providence College welcomes prospective students to explore all that the Friar community has to offer. Applications are submitted through the Common Application, where you will also find current deadlines, admissions requirements, and information about Early Decision and Early Action options. To experience our beautiful campus firsthand, we encourage you to schedule a visit through the Admissions Office.",
+    url: "https://www.providence.edu/admissions/",
+    urlLabel: "Visit Admissions",
+    escalation: "Office of Admission · Harkins Hall · (401) 865-2535 · padmit@providence.edu"
+  },
+  {
+    category: "Financial Aid",
+    keywords: ["fafsa","financial aid","scholarship","grant","loan","work-study","award","merit","need-based","appeal","css profile","renewal","for.pc.edu","aid","funding","money","cost"],
+    response: "Providence College is committed to making a transformative education accessible to all qualified students. The Office of Financial Aid administers a comprehensive range of need-based and merit-based aid programs. Students and families are encouraged to complete the FAFSA and visit the financial aid portal to review award letters and submit required documentation.",
+    url: "https://www.providence.edu/financial-aid/",
+    urlLabel: "Visit Financial Aid",
+    escalation: "Office of Financial Aid · Harkins Hall · (401) 865-2286 · finaid@providence.edu"
+  },
+  {
+    category: "Registrar",
+    keywords: ["register","registration","transcript","add","drop","withdraw","withdrawal","graduation","enrollment verification","academic calendar","declare","major","credit","class schedule","degree audit","semester"],
+    response: "The Office of the Registrar at Providence College manages all aspects of academic records, course registration, and degree certification. Students may access registration, transcripts, enrollment verification, and graduation applications through the student portal. The academic calendar with key dates including add/drop periods and withdrawal deadlines is also available online.",
+    url: "https://www.providence.edu/registrar/",
+    urlLabel: "Visit the Registrar",
+    escalation: "Office of the Registrar · Harkins Hall · (401) 865-2435 · registrar@providence.edu"
+  },
+  {
+    category: "Academic Programs",
+    keywords: ["major","minor","degree","program","curriculum","dwc","development of western civilization","pre-med","pre-law","honors","graduate","double major","liberal arts","business","general education","department","academics","courses","faculty"],
+    response: "Providence College offers more than 50 undergraduate majors and minors across the liberal arts, sciences, business, and education — grounded in our signature Development of Western Civilization program. The full list of academic offerings, degree requirements, and departmental contacts is available on the academics page. Faculty advisors are also available to guide you in building a program of study that reflects your goals.",
+    url: "https://www.providence.edu/academics/",
+    urlLabel: "Explore Academics",
+    escalation: "Office of Academic Affairs · Harkins Hall · (401) 865-2446"
+  },
+  {
+    category: "Housing",
+    keywords: ["housing","dorm","dormitory","residence hall","roommate","housing lottery","on-campus","off-campus","housing application","resident advisor","ra","maintenance","living","suite","room","apartment"],
+    response: "Providence College provides a vibrant on-campus living experience through a variety of residence halls designed to support both academic success and community engagement. All details regarding the housing application process, room selection, roommate requests, and residence hall policies are available through the Office of Residence Life. Our Resident Advisors and professional staff are dedicated to ensuring your time living on campus is positive and fulfilling.",
+    url: "https://www.providence.edu/residence-life/",
+    urlLabel: "Visit Residence Life",
+    escalation: "Office of Residence Life · Student Services Building · (401) 865-2005 · reslife@providence.edu"
+  },
+  {
+    category: "Dining",
+    keywords: ["dining","meal plan","dining hall","ray","friar bucks","food","allergy","vegetarian","vegan","halal","kosher","catering","late night","eat","menu","cafeteria","hours"],
+    response: "Providence College Dining Services offers a wide variety of dining options across campus to suit every schedule, dietary preference, and budget. The Ray Dining Center is the College's primary all-you-care-to-eat facility, and Friar Bucks may be used at select campus dining locations. Students with specific dietary needs are encouraged to speak directly with our dining services staff, who are happy to assist with accommodations.",
+    url: "https://www.providence.edu/dining/",
+    urlLabel: "View Dining Options",
+    escalation: "Dining Services · Ray Dining Center / Slavin Center · verify contact at providence.edu/dining"
+  },
+  {
+    category: "Student Accounts",
+    keywords: ["tuition","bill","payment","balance","hold","1098-t","tax","payment plan","refund","bursar","authorized user","due date","account","ebill","fee","charge"],
+    response: "Providence College's Office of Student Accounts manages all billing, payment, and account-related services. Students may view their current balance, make payments, and enroll in a payment plan through the student account portal. Please note that account holds may affect your ability to register for classes until resolved.",
+    url: "https://www.providence.edu/student-accounts/",
+    urlLabel: "View Student Accounts",
+    escalation: "Office of Student Accounts · Student Services Building · (401) 865-2490 · bursar@providence.edu"
+  },
+  {
+    category: "IT Support",
+    keywords: ["wifi","wi-fi","password","reset","friar domain","blackboard","canvas","microsoft","office 365","email","tech","help desk","laptop","software","print","phishing","cybersecurity","two-factor","login","account","computer","internet","network"],
+    response: "Providence College's Information Technology Services (ITS) team is available to assist students, faculty, and staff with all technology-related needs. Whether you need help resetting your Friar Domain password, connecting to campus Wi-Fi, accessing Blackboard, or downloading licensed software, the ITS Help Desk is your first point of contact. For urgent issues such as suspected phishing or account compromise, please contact the Help Desk directly.",
+    url: "https://www.providence.edu/its/",
+    urlLabel: "Visit ITS Help Desk",
+    escalation: "ITS Help Desk · Harkins Hall · (401) 865-2365 · itsupport@providence.edu"
+  },
+  {
+    category: "Athletics",
+    keywords: ["athletics","friars","basketball","hockey","soccer","big east","ncaa","ticket","game","intramural","club sport","coach","athletic scholarship","sports","team","schedule","score","friar","dunkin","amica"],
+    response: "Providence College is home to the Friars, a proud member of the Big East Conference competing at the NCAA Division I level across 17 varsity sports. Game schedules, ticket information, team rosters, and coaching staff contacts are all available on the athletics website. Students looking to participate recreationally may also explore club and intramural sports opportunities. Go Friars!",
+    url: "https://www.providencecollegeathletics.com",
+    urlLabel: "Go to PC Athletics",
+    escalation: "Department of Athletics · Ruane Friar Development Center · (401) 865-2400"
+  },
+  {
+    category: "Campus Events",
+    keywords: ["events","calendar","student activities","organization","club","friar fest","concert","speaker","room reservation","event","slavin","weekend","lecture","what's happening","things to do on campus"],
+    response: "Providence College's vibrant campus life is shaped by more than 100 student organizations and a full calendar of cultural, social, athletic, and spiritual events throughout the academic year. The Office of Student Activities maintains the campus events calendar, oversees student organization registration, and can assist with room reservations and event planning.",
+    url: "https://www.providence.edu/student-activities/",
+    urlLabel: "View Student Activities",
+    escalation: "Office of Student Activities · Slavin Center · (401) 865-2911 · studentactivities@providence.edu"
+  },
+  {
+    category: "Career Services",
+    keywords: ["career","internship","resume","résumé","job","interview","career fair","networking","handshake","graduate school","mentorship","employer","recruit","work","professional","pathways to providence"],
+    response: "The Pathways to Providence Career Services team is here to support every stage of your professional development — from crafting a compelling résumé to navigating your job search and graduate school applications. Through our Handshake platform, students have access to thousands of job and internship postings, career fair registrations, and one-on-one advising appointments.",
+    url: "https://www.providence.edu/career-services/",
+    urlLabel: "Visit Career Services",
+    escalation: "Career Services (Pathways to Providence) · Harkins Hall · (401) 865-2393 · careers@providence.edu"
+  },
+  {
+    category: "Library",
+    keywords: ["library","phillips","research","database","journal","interlibrary","ill","study room","citation","librarian","off-campus access","print","reserves","e-book","book","article","source"],
+    response: "Phillips Memorial Library is the academic heart of Providence College, offering extensive print and digital collections, research support, study spaces, and technology services. Students may access research databases, e-journals, interlibrary loan requests, and research guides through the library website. Reference librarians are available in person and by appointment to assist with research at any stage of the writing process.",
+    url: "https://library.providence.edu",
+    urlLabel: "Visit the Library",
+    escalation: "Phillips Memorial Library · Reference Desk · (401) 865-2747 · reference@providence.edu"
+  },
+  {
+    category: "Alumni Relations",
+    keywords: ["alumni","alum","donation","gift","homecoming","reunion","alumni network","mentor","alumni chapter","transcript","alumni benefits","giving","annual fund","graduate","former student"],
+    response: "Once a Friar, always a Friar. Providence College's alumni community spans the globe, and the Office of Alumni Relations is dedicated to keeping graduates connected to the College, to one another, and to the next generation of Friars. Whether you are interested in mentoring current students, attending a reunion, or making a gift, all alumni resources and event information are available online.",
+    url: "https://www.providence.edu/alumni/",
+    urlLabel: "Visit Alumni Relations",
+    escalation: "Office of Alumni Relations · (401) 865-2434 · alumni@providence.edu"
+  },
+  {
+    category: "Study Abroad",
+    keywords: ["study abroad","international","semester abroad","exchange","global studies","rome","oxford","abroad","financial aid abroad","credit transfer","visa","passport","language requirement","global"],
+    response: "Providence College's Office of Global Studies offers students an extraordinary opportunity to deepen their education through immersive international experiences. From semester-long programs in Rome, Oxford, and beyond to short-term faculty-led trips, the College provides a wide range of options to suit different academic goals and budgets. Financial aid may be applicable toward approved programs, and academic credits are transferable in accordance with established guidelines.",
+    url: "https://www.providence.edu/global-studies/",
+    urlLabel: "Explore Study Abroad",
+    escalation: "Office of Global Studies · Harkins Hall · (401) 865-2474 · globalprograms@providence.edu"
+  },
+  {
+    category: "Local Area Guide",
+    keywords: ["restaurant","food","federal hill","atwells","things to do","day trip","newport","boston","weekend","off campus","explore","coffee","eat out","waterfront","local","nearby","mystic","block island","cape cod","bar","nightlife","roger williams","park","around providence"],
+    response: `Providence is a vibrant, walkable city with a nationally recognized food scene and easy access to some of New England's most beloved destinations. Here are some highlights:\n\n<strong>🍽 Restaurants Near Campus</strong>\n<em>Federal Hill / Atwells Ave (Italian neighborhood, ~10 min drive)</em>\n• Siena — upscale Northern Italian ($$$)\n• Cassarino's — classic Italian-American ($$)\n• Venda Ravioli — Italian market & café ($)\n• Al Forno — nationally acclaimed, wood-fired ($$$$)\n\n<em>Downtown & Waterfront</em>\n• Gracie's — fine dining contemporary American ($$$$)\n• Waterman Grille — seafood & American ($$$)\n\n<em>Casual & Near-Campus (Thayer St area)</em>\n• Kabob and Curry — Indian/Middle Eastern ($)\n• Variety of pizza, Thai, and cafés ($–$$)\n\n<strong>🗺 Day Trips from PC</strong>\n• <strong>Newport, RI</strong> — Cliff Walk, mansions, beaches (~45 min)\n• <strong>Boston, MA</strong> — museums, Fenway, the North End (~1 hr)\n• <strong>Mystic, CT</strong> — aquarium, historic seaport (~50 min)\n• <strong>Block Island, RI</strong> — pristine beaches, ferry from Point Judith (~2 hrs)\n• <strong>Cape Cod, MA</strong> — lighthouses, seafood, coastline (~1.5 hrs)\n• <strong>Roger Williams Park</strong> — zoo, botanical garden, right in Providence (~10 min)`,
+    url: "https://www.goprovidence.com",
+    urlLabel: "Explore GoProvidence.com",
+    escalation: null
+  }
+];
+
+// ── Matching engine ───────────────────────────────────────────────────────────
+function matchIntent(text) {
+  const lower = text.toLowerCase();
+  let best = null, bestScore = 0;
+  for (const intent of INTENTS) {
+    let score = 0;
+    for (const kw of intent.keywords) {
+      if (lower.includes(kw)) score += kw.split(" ").length; // multi-word keywords score higher
+    }
+    if (score > bestScore) { bestScore = score; best = intent; }
+  }
+  return bestScore > 0 ? best : null;
+}
+
+// ── DOM helpers ───────────────────────────────────────────────────────────────
+const feed = document.getElementById("feed");
+const input = document.getElementById("userInput");
+
+function scrollBottom() {
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function addMessage(role, html) {
+  const wrapper = document.createElement("div");
+  wrapper.className = `msg ${role}`;
+  const av = document.createElement("div");
+  av.className = "avatar";
+  av.textContent = role === "bot" ? "PC" : "You";
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.innerHTML = html;
+  wrapper.appendChild(av);
+  wrapper.appendChild(bubble);
+  feed.appendChild(wrapper);
+  scrollBottom();
+  return wrapper;
+}
+
+function addTyping() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "msg bot typing";
+  wrapper.innerHTML = `<div class="avatar">PC</div><div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  feed.appendChild(wrapper);
+  scrollBottom();
+  return wrapper;
+}
+
+function buildBotHTML(intent) {
+  let html = `<div class="response-title">${intent.category}</div>`;
+  html += `<p>${intent.response.replace(/\n/g, "<br>")}</p>`;
+  html += `<a class="link-btn" href="${intent.url}" target="_blank">${intent.urlLabel} ↗</a>`;
+  if (intent.escalation) {
+    html += `<div class="escalation"><strong>Need human help?</strong><br>${intent.escalation}</div>`;
+  }
+  return html;
+}
+
+function buildFallbackHTML() {
+  return `<p>Thank you for reaching out to Providence College. I wasn't able to find a specific match for your question, but our team is happy to help. Please visit the main website or contact the appropriate office directly.</p><a class="link-btn" href="https://www.providence.edu/offices-and-services/" target="_blank">Browse All Offices ↗</a>`;
+}
+
+// ── Main send flow ────────────────────────────────────────────────────────────
+function ask(text) {
+  input.value = text;
+  handleSend();
+}
+
+function handleSend() {
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+
+  // Hide suggestions after first message
+  document.getElementById("suggestions").style.display = "none";
+
+  addMessage("user", text);
+
+  const typing = addTyping();
+  setTimeout(() => {
+    typing.remove();
+    const intent = matchIntent(text);
+    addMessage("bot", intent ? buildBotHTML(intent) : buildFallbackHTML());
+  }, 700);
+}
+
+// ── Enter key ─────────────────────────────────────────────────────────────────
+input.addEventListener("keydown", e => { if (e.key === "Enter") handleSend(); });
+
+// ── Welcome message ───────────────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+  addMessage("bot", `<p>Welcome to the <strong>Providence College Assistant</strong>. I am here to help you with admissions, academics, financial aid, campus life, local area recommendations, and more.</p><p>How may I assist you today?</p>`);
+});
+</script>
+</body>
+</html>
