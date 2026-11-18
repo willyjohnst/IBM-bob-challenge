@@ -403,6 +403,14 @@ const INTENTS = [
     escalation: "Office of Global Studies · Harkins Hall · (401) 865-2474 · globalprograms@providence.edu"
   },
   {
+    category: "Pizza Near Campus",
+    keywords: ["pizza","best pizza","pizza place","pizza near","pizza in providence","pizza near campus","pizza near pc","slice","pepperoni","calzone"],
+    response: "Providence has a fantastic pizza scene! Click below to see the top-rated pizza spots near Providence College on Google Maps — with live ratings, hours, and directions.",
+    url: "https://www.google.com/maps/search/best+pizza+near+Providence+College+Providence+RI",
+    urlLabel: "Find Pizza on Google Maps ↗",
+    escalation: null
+  },
+  {
     category: "Local Area Guide",
     keywords: ["restaurant","food","federal hill","atwells","things to do","day trip","newport","boston","weekend","off campus","explore","coffee","eat out","waterfront","local","nearby","mystic","block island","cape cod","bar","nightlife","roger williams","park","around providence"],
     response: `Providence is a vibrant, walkable city with a nationally recognized food scene and easy access to some of New England's most beloved destinations. Here are some highlights:\n\n<strong>🍽 Restaurants Near Campus</strong>\n<em>Federal Hill / Atwells Ave (Italian neighborhood, ~10 min drive)</em>\n• Siena — upscale Northern Italian ($$$)\n• Cassarino's — classic Italian-American ($$)\n• Venda Ravioli — Italian market & café ($)\n• Al Forno — nationally acclaimed, wood-fired ($$$$)\n\n<em>Downtown & Waterfront</em>\n• Gracie's — fine dining contemporary American ($$$$)\n• Waterman Grille — seafood & American ($$$)\n\n<em>Casual & Near-Campus (Thayer St area)</em>\n• Kabob and Curry — Indian/Middle Eastern ($)\n• Variety of pizza, Thai, and cafés ($–$$)\n\n<strong>🗺 Day Trips from PC</strong>\n• <strong>Newport, RI</strong> — Cliff Walk, mansions, beaches (~45 min)\n• <strong>Boston, MA</strong> — museums, Fenway, the North End (~1 hr)\n• <strong>Mystic, CT</strong> — aquarium, historic seaport (~50 min)\n• <strong>Block Island, RI</strong> — pristine beaches, ferry from Point Judith (~2 hrs)\n• <strong>Cape Cod, MA</strong> — lighthouses, seafood, coastline (~1.5 hrs)\n• <strong>Roger Williams Park</strong> — zoo, botanical garden, right in Providence (~10 min)`,
@@ -419,6 +427,11 @@ function matchIntent(text) {
   // Hard override: any mention of "abroad" or "global education" goes directly to Study Abroad
   if (lower.includes("abroad") || lower.includes("global education") || lower.includes("study abroad")) {
     return INTENTS.find(i => i.category === "Study Abroad");
+  }
+
+  // Hard override: any mention of "pizza" goes directly to Pizza Near Campus
+  if (lower.includes("pizza") || lower.includes("slice") || lower.includes("calzone")) {
+    return INTENTS.find(i => i.category === "Pizza Near Campus");
   }
 
   let best = null, bestScore = 0;
