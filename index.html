@@ -363,7 +363,10 @@ function matchIntent(text) {
   for (const intent of INTENTS) {
     let score = 0;
     for (const kw of intent.keywords) {
-      if (lower.includes(kw)) score += kw.split(" ").length; // multi-word keywords score higher
+      if (lower.includes(kw)) {
+        const words = kw.split(" ").length;
+        score += words * words; // quadratic: 1-word=1pt, 2-word=4pt, 3-word=9pt
+      }
     }
     if (score > bestScore) { bestScore = score; best = intent; }
   }
