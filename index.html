@@ -153,6 +153,62 @@
     }
     .bubble .escalation strong { color: #002147; }
 
+    /* ── Speak to a person ── */
+    .speak-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      background: #fff;
+      color: #002147;
+      border: 1.5px solid #002147;
+      border-radius: 6px;
+      padding: 6px 13px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .speak-btn:hover { background: #002147; color: #fff; }
+    .speak-btn svg { flex-shrink: 0; }
+
+    .person-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: #f0f4fa;
+      border: 1px solid #c8d4e8;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #1f2328;
+    }
+    .person-card .person-name {
+      font-weight: 700;
+      color: #002147;
+      font-size: 13.5px;
+    }
+    .person-card .person-title {
+      color: #57606a;
+      margin-top: 1px;
+      font-size: 12.5px;
+    }
+    .person-card .email-btn {
+      display: inline-block;
+      margin-top: 8px;
+      background: #d4a827;
+      color: #002147;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+    .person-card .email-btn:hover { background: #b8901f; }
+    .person-card .no-person {
+      color: #57606a;
+      font-style: italic;
+    }
+
     /* ── Typing indicator ── */
     .typing .bubble {
       display: flex; gap: 5px; align-items: center;
@@ -410,6 +466,14 @@ function buildBotHTML(intent) {
   if (intent.escalation) {
     html += `<div class="escalation"><strong>Need human help?</strong><br>${intent.escalation}</div>`;
   }
+  html += `
+    <button class="speak-btn" onclick="togglePersonCard(this, '${escapeAttr(intent.category)}')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0a4 4 0 1 1 0 8A4 4 0 0 1 8 0zM2 14c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/>
+      </svg>
+      Speak to a person
+    </button>
+    <div class="person-card" style="display:none"></div>`;
   return html;
 }
 
@@ -444,8 +508,129 @@ function handleSend() {
 // ── Enter key ─────────────────────────────────────────────────────────────────
 input.addEventListener("keydown", e => { if (e.key === "Enter") handleSend(); });
 
+// ── Faculty CSV ───────────────────────────────────────────────────────────────
+let facultyData = [];
+
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) return [];
+  // Simple CSV parser that handles quoted fields
+  function parseLine(line) {
+    const fields = [];
+    let cur = "", inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { fields.push(cur); cur = ""; }
+      else { cur += c; }
+    }
+    fields.push(cur);
+    return fields;
+  }
+  const headers = parseLine(lines[0]).map(h => h.replace(/^\uFEFF/, "").trim());
+  return lines.slice(1).map(line => {
+    const vals = parseLine(line);
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = (vals[i] || "").trim(); });
+    return obj;
+  });
+}
+
+// Intent category → department / position keywords to match in the CSV
+const CATEGORY_DEPT_HINTS = {
+  "Admissions":          ["admissions", "admission", "enrollment"],
+  "Financial Aid":       ["financial aid", "bursar", "student accounts", "finance"],
+  "Registrar":           ["registrar", "academic affairs", "academic records"],
+  "Academic Programs":   ["academic affairs", "dean", "provost"],
+  "Housing":             ["residence life", "residential", "housing"],
+  "Dining":              ["dining", "food service"],
+  "Student Accounts":    ["student accounts", "bursar", "accountancy", "finance"],
+  "IT Support":          ["information technology", "its", "computer science", "mathematics & computer science"],
+  "Athletics":           ["athletics", "physical education", "army rotc"],
+  "Campus Events":       ["student activities", "student affairs", "slavin"],
+  "Career Services":     ["career", "pathways", "management", "business"],
+  "Library":             ["library", "reference"],
+  "Alumni Relations":    ["alumni", "development", "advancement"],
+  "Study Abroad":        ["global studies", "international", "world languages"],
+  "Local Area Guide":    ["communication", "sociology", "history"]
+};
+
+function scorePerson(row, hints) {
+  const dept = (row["department"] || "").toLowerCase();
+  const pos  = (row["position"]   || "").toLowerCase();
+  let score = 0;
+  for (const hint of hints) {
+    if (dept.includes(hint)) score += 2;
+    if (pos.includes(hint))  score += 1;
+  }
+  // Prefer rows that have an email and are not emeritus/adjunct
+  if (row["email"]) score += 3;
+  if (row["verification_status"] === "passed") score += 2;
+  if ((row["person_type"] || "").includes("emeritus")) score -= 4;
+  if ((row["person_type"] || "").includes("adjunct"))  score -= 2;
+  return score;
+}
+
+function findPerson(category) {
+  const hints = CATEGORY_DEPT_HINTS[category] || [];
+  if (!facultyData.length || !hints.length) return null;
+  let best = null, bestScore = -Infinity;
+  for (const row of facultyData) {
+    if (!row["email"]) continue; // need an email to be useful
+    const s = scorePerson(row, hints);
+    if (s > bestScore) { bestScore = s; best = row; }
+  }
+  return bestScore > 0 ? best : null;
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function escapeAttr(str) {
+  return (str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+}
+
+function draftEmail(person, category) {
+  const subject = encodeURIComponent(`Question about ${category} at Providence College`);
+  const body = encodeURIComponent(
+    `Dear ${person["name"]},\n\n` +
+    `I am reaching out with a question about ${category} at Providence College and was directed to you as a relevant contact.\n\n` +
+    `[Please describe your question here]\n\n` +
+    `Thank you for your time, and I look forward to hearing from you.\n\n` +
+    `Best regards,\n[Your name]`
+  );
+  return `mailto:${person["email"]}?subject=${subject}&body=${body}`;
+}
+
+function togglePersonCard(btn, category) {
+  const card = btn.nextElementSibling;
+  if (card.style.display !== "none") {
+    card.style.display = "none";
+    btn.textContent = "";
+    btn.insertAdjacentHTML("afterbegin", `<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a4 4 0 1 1 0 8A4 4 0 0 1 8 0zM2 14c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg> Speak to a person`);
+    return;
+  }
+  // Build card content
+  const person = findPerson(category);
+  if (!person) {
+    card.innerHTML = `<div class="no-person">No specific contact found for this topic. Try browsing the <a href="https://offices-and-services.providence.edu/" target="_blank" style="color:#002147">offices directory</a>.</div>`;
+  } else {
+    const posLabel = person["position"] || person["title"] || "Faculty / Staff";
+    card.innerHTML = `
+      <div class="person-name">${person["name"]}</div>
+      <div class="person-title">${posLabel}${person["department"] ? " · " + person["department"] : ""}${person["office"] ? " · " + person["office"] : ""}</div>
+      <a class="email-btn" href="${draftEmail(person, category)}">✉ Email ${person["name"].split(" ")[0]}</a>`;
+  }
+  card.style.display = "block";
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a4 4 0 1 1 0 8A4 4 0 0 1 8 0zM2 14c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg> Hide`;
+}
+
 // ── Welcome message ───────────────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
+  // Load faculty CSV
+  fetch("providence_college_faculty_directory_quality_controlled.csv")
+    .then(r => r.text())
+    .then(text => { facultyData = parseCSV(text); })
+    .catch(() => { /* silently fail — button still shows, card says no contact found */ });
+
   addMessage("bot", `<p>Welcome to the <strong>Providence College Assistant</strong>. I am here to help you with admissions, academics, financial aid, campus life, local area recommendations, and more.</p><p>How may I assist you today?</p>`);
 });
 </script>
