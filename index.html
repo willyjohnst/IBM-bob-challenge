@@ -200,6 +200,34 @@
     }
     .msg-bubble .escalation-block strong { color: var(--navy); display: block; margin-bottom: 2px; }
 
+    /* ── Human Routing Cards ── */
+    .esc-route { margin-top: 10px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); font-size: 12.5px; }
+    .esc-route-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 12px; font-weight: 700; font-size: 11px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .esc-route-header.office { background: #eef2ff; color: #3730a3; border-bottom: 1px solid #c7d2fe; }
+    .esc-route-header.prof   { background: #fef9ec; color: #92610a; border-bottom: 1px solid #fde68a; }
+    .esc-route-body { padding: 10px 12px; background: #fff; }
+    .esc-route-body .esc-name { font-weight: 700; color: var(--navy); font-size: 13px; margin-bottom: 2px; }
+    .esc-route-body .esc-detail { color: #555; line-height: 1.6; }
+    .esc-route-body .esc-detail a { color: var(--navy); font-weight: 600; text-decoration: none; }
+    .esc-route-body .esc-detail a:hover { text-decoration: underline; }
+    .esc-rmp-badge {
+      display: inline-block; padding: 1px 7px; border-radius: 10px;
+      font-size: 10.5px; font-weight: 700; margin-left: 6px;
+    }
+    .esc-route-dual { display: flex; gap: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin-top: 10px; }
+    .esc-route-dual .esc-pane { flex: 1; padding: 10px 12px; font-size: 12px; }
+    .esc-route-dual .esc-pane:first-child { border-right: 1px solid var(--border); }
+    .esc-route-dual .esc-pane-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .esc-route-dual .esc-pane-label.office { color: #3730a3; }
+    .esc-route-dual .esc-pane-label.prof   { color: #92610a; }
+    .esc-route-dual .esc-pane-name { font-weight: 700; color: var(--navy); font-size: 12.5px; }
+    .esc-route-dual .esc-pane-detail { color: #555; line-height: 1.5; margin-top: 2px; }
+    .esc-route-dual .esc-pane-detail a { color: var(--navy); font-weight: 600; text-decoration: none; }
+
     .typing-dots { display: flex; gap: 5px; align-items: center; padding: 4px 0; }
     .typing-dots span {
       width: 7px; height: 7px; border-radius: 50%;
@@ -302,6 +330,77 @@
       .sidebar { display: none; }
       .fab { display: flex; }
     }
+
+    /* ── Course Advisor Modal ── */
+    .advisor-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.48); z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .advisor-overlay.open { display: flex; }
+    .advisor-modal {
+      background: #fff; border-radius: 14px;
+      width: min(520px, 94vw); max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    }
+    .advisor-modal-header {
+      background: var(--navy); color: #fff;
+      padding: 16px 20px 14px; border-radius: 14px 14px 0 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .advisor-modal-header h2 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .advisor-modal-header p  { font-size: 12px; opacity: 0.72; }
+    .advisor-close {
+      background: none; border: none; color: #fff;
+      font-size: 22px; cursor: pointer; padding: 0 4px; line-height: 1;
+    }
+    .advisor-body { padding: 20px 22px; }
+    .advisor-body label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--navy); margin-bottom: 5px; margin-top: 14px;
+    }
+    .advisor-body label:first-child { margin-top: 0; }
+    .advisor-body select {
+      width: 100%; padding: 9px 12px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 14px; color: #1a1a1a; background: #fff;
+      appearance: none; cursor: pointer;
+    }
+    .advisor-body select:focus { outline: none; border-color: var(--navy); }
+    .advisor-go {
+      display: block; width: 100%; margin-top: 20px;
+      background: var(--navy); color: #fff; border: none; border-radius: 8px;
+      padding: 11px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .advisor-go:hover { background: #003070; }
+
+    /* ── Schedule result card ── */
+    .schedule-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 10px; }
+    .schedule-card-header { background: var(--navy); color: #fff; padding: 9px 14px; font-weight: 700; font-size: 13px; }
+    .schedule-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+    }
+    .schedule-row:last-child { border-bottom: none; }
+    .schedule-row:nth-child(even) { background: #f9fafb; }
+    .schedule-num {
+      flex-shrink: 0; width: 24px; height: 24px;
+      background: var(--gold); color: var(--navy);
+      border-radius: 50%; font-weight: 800; font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .schedule-info { flex: 1; }
+    .schedule-course { font-weight: 700; color: var(--navy); font-size: 13.5px; }
+    .schedule-prof  { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .schedule-rmp {
+      flex-shrink: 0; font-size: 12px; font-weight: 700;
+      padding: 3px 9px; border-radius: 20px; white-space: nowrap; align-self: center;
+    }
+    .rmp-high { background: #d1fae5; color: #065f46; }
+    .rmp-mid  { background: #fef3c7; color: #92400e; }
+    .rmp-low  { background: #fee2e2; color: #991b1b; }
+    .rmp-none { background: #f3f4f6; color: #6b7280; }
   </style>
 </head>
 <body>
@@ -322,6 +421,50 @@
   <a class="nav-cta" href="https://www.providence.edu/contact/" target="_blank">Get Human Help</a>
 </nav>
 
+<!-- Course Advisor Modal -->
+<div class="advisor-overlay" id="advisorOverlay">
+  <div class="advisor-modal">
+    <div class="advisor-modal-header">
+      <div>
+        <h2>📅 Course Advisor</h2>
+        <p>Get RMP-optimized class picks for next semester</p>
+      </div>
+      <button class="advisor-close" onclick="closeAdvisor()">✕</button>
+    </div>
+    <div class="advisor-body">
+      <label for="advisorMajor">Your Major</label>
+      <select id="advisorMajor">
+        <option value="">— Select your major —</option>
+        <option value="finance">Finance</option>
+        <option value="accounting">Accounting</option>
+        <option value="management">Management</option>
+        <option value="marketing">Marketing</option>
+        <option value="cs">Computer Science</option>
+        <option value="math">Mathematics</option>
+        <option value="biology">Biology</option>
+        <option value="biochemistry">Biochemistry / Chemistry</option>
+        <option value="nursing">Nursing</option>
+        <option value="psychology">Psychology</option>
+        <option value="economics">Economics</option>
+        <option value="political_science">Political Science</option>
+        <option value="history">History</option>
+        <option value="english">English</option>
+        <option value="sociology">Sociology</option>
+        <option value="education">Education (Elementary/Secondary)</option>
+      </select>
+      <label for="advisorYear">Your Current Year</label>
+      <select id="advisorYear">
+        <option value="">— Select your year —</option>
+        <option value="1">Freshman (1st Year)</option>
+        <option value="2">Sophomore (2nd Year)</option>
+        <option value="3">Junior (3rd Year)</option>
+        <option value="4">Senior (4th Year)</option>
+      </select>
+      <button class="advisor-go" onclick="runAdvisor()">Generate My Schedule →</button>
+    </div>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
@@ -341,7 +484,7 @@
     </div>
     <div class="hero-popular">
       <span>Popular Requests</span>
-      <button class="pop-btn" onclick="heroFill('How do I register for classes?')">📅 Plan my semester</button>
+      <button class="pop-btn" onclick="openAdvisor()">📅 Plan my semester</button>
       <button class="pop-btn" onclick="heroFill('How do I register for classes?')">🕐 Registration help</button>
       <button class="pop-btn" onclick="heroFill('What financial aid is available?')">💰 Financial aid</button>
       <button class="pop-btn" onclick="heroFill('What is there to do near Providence College?')">📍 Things to do nearby</button>
@@ -356,9 +499,9 @@
     <div><h3>Explore Courses</h3><p>Find your next class</p></div>
     <span class="feat-arrow">›</span>
   </a>
-  <a class="feat-card" href="https://registrar.providence.edu/" target="_blank">
+  <a class="feat-card" href="#" onclick="event.preventDefault();openAdvisor()">
     <div class="feat-icon">📅</div>
-    <div><h3>Build a Schedule</h3><p>Make your semester fit</p></div>
+    <div><h3>Course Advisor</h3><p>Get RMP-ranked picks for your major</p></div>
     <span class="feat-arrow">›</span>
   </a>
   <a class="feat-card" href="https://www.providence.edu/directory/" target="_blank">
@@ -432,116 +575,740 @@ const INTENTS = [
     keywords:["apply","application","deadline","admission","admissions","sat","act","gpa","acceptance","tour","visit","transfer","early decision","early action","common app","requirements","prospective"],
     response:"Providence College welcomes prospective students to explore all that the Friar community has to offer. Applications are submitted through the Common Application, where you will also find current deadlines, admissions requirements, and information about Early Decision and Early Action options. To experience our beautiful campus firsthand, we encourage you to schedule a visit through the Admissions Office.",
     url:"https://admissions.providence.edu/",urlLabel:"Visit Admissions",
-    escalation:"Office of Admission · Harkins Hall · (401) 865-2535 · padmit@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Admission", location:"Harkins Hall", phone:"(401) 865-2535", email:"padmit@providence.edu" }
   },
   {
     category:"Financial Aid",
     keywords:["fafsa","financial aid","scholarship","grant","loan","work-study","award","merit","need-based","appeal","css profile","renewal","for.pc.edu","aid","funding","money","cost"],
     response:"Providence College is committed to making a transformative education accessible to all qualified students. The Office of Financial Aid administers a comprehensive range of need-based and merit-based aid programs. Students and families are encouraged to complete the FAFSA and visit the financial aid portal to review award letters and submit required documentation.",
     url:"https://financial-aid.providence.edu/",urlLabel:"Visit Financial Aid",
-    escalation:"Office of Financial Aid · Harkins Hall · (401) 865-2286 · finaid@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Financial Aid", location:"Harkins Hall", phone:"(401) 865-2286", email:"finaid@providence.edu" },
+    profDept:"Economics"
   },
   {
     category:"Registrar",
     keywords:["register","registration","transcript","add","drop","withdraw","withdrawal","graduation","enrollment verification","academic calendar","declare","major","credit","class schedule","degree audit","semester","plan my semester"],
     response:"The Office of the Registrar at Providence College manages all aspects of academic records, course registration, and degree certification. Students may access registration, transcripts, enrollment verification, and graduation applications through the student portal. The academic calendar with key dates including add/drop periods and withdrawal deadlines is also available online.",
     url:"https://registrar.providence.edu/",urlLabel:"Visit the Registrar",
-    escalation:"Office of the Registrar · Harkins Hall · (401) 865-2435 · registrar@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of the Registrar", location:"Harkins Hall", phone:"(401) 865-2435", email:"registrar@providence.edu" }
   },
   {
     category:"Academic Programs",
     keywords:["major","minor","degree","program","curriculum","dwc","development of western civilization","pre-med","pre-law","honors","graduate","double major","liberal arts","business","general education","department","academics","courses","faculty"],
     response:"Providence College offers more than 50 undergraduate majors and minors across the liberal arts, sciences, business, and education — grounded in our signature Development of Western Civilization program. The full list of academic offerings, degree requirements, and departmental contacts is available on the academics page.",
     url:"https://academics.providence.edu/",urlLabel:"Explore Academics",
-    escalation:"Office of Academic Affairs · Harkins Hall · (401) 865-2446"
+    escalationType:"both",
+    officeContact:{ name:"Office of Academic Affairs", location:"Harkins Hall", phone:"(401) 865-2446", email:null },
+    profDept:"Philosophy"
   },
   {
     category:"Housing",
     keywords:["housing","dorm","dormitory","residence hall","roommate","housing lottery","on-campus","off-campus","housing application","resident advisor","ra","maintenance","living","suite","room","apartment"],
     response:"Providence College provides a vibrant on-campus living experience through a variety of residence halls designed to support both academic success and community engagement. All details regarding the housing application process, room selection, roommate requests, and residence hall policies are available through the Office of Residence Life.",
     url:"https://residence-life.providence.edu/",urlLabel:"Visit Residence Life",
-    escalation:"Office of Residence Life · Student Services Building · (401) 865-2005 · reslife@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Residence Life", location:"Student Services Building", phone:"(401) 865-2005", email:"reslife@providence.edu" }
   },
   {
     category:"Dining",
     keywords:["dining","meal plan","dining hall","ray","friar bucks","food","allergy","vegetarian","vegan","halal","kosher","catering","late night","eat","menu","cafeteria","hours"],
     response:"Providence College Dining Services offers a wide variety of dining options across campus to suit every schedule, dietary preference, and budget. The Ray Dining Center is the College's primary all-you-care-to-eat facility, and Friar Bucks may be used at select campus dining locations.",
     url:"https://dining.providence.edu/",urlLabel:"View Dining Options",
-    escalation:"Dining Services · Ray Dining Center / Slavin Center · verify contact at providence.edu/dining"
+    escalationType:"office",
+    officeContact:{ name:"Dining Services", location:"Ray Dining Center / Slavin Center", phone:null, email:null }
   },
   {
     category:"Student Accounts",
     keywords:["tuition","bill","payment","balance","hold","1098-t","tax","payment plan","refund","bursar","authorized user","due date","account","ebill","fee","charge"],
     response:"Providence College's Office of Student Accounts manages all billing, payment, and account-related services. Students may view their current balance, make payments, and enroll in a payment plan through the student account portal. Please note that account holds may affect your ability to register for classes until resolved.",
     url:"https://student-accounts.providence.edu/",urlLabel:"View Student Accounts",
-    escalation:"Office of Student Accounts · Student Services Building · (401) 865-2490 · bursar@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Student Accounts", location:"Student Services Building", phone:"(401) 865-2490", email:"bursar@providence.edu" }
   },
   {
     category:"IT Support",
     keywords:["wifi","wi-fi","password","reset","friar domain","blackboard","canvas","microsoft","office 365","email","tech","help desk","laptop","software","print","phishing","cybersecurity","two-factor","login","computer","internet","network"],
     response:"Providence College's Information Technology Services (ITS) team is available to assist students, faculty, and staff with all technology-related needs. Whether you need help resetting your Friar Domain password, connecting to campus Wi-Fi, or accessing Blackboard, the ITS Help Desk is your first point of contact.",
     url:"https://its.providence.edu/",urlLabel:"Visit ITS Help Desk",
-    escalation:"ITS Help Desk · Harkins Hall · (401) 865-2365 · itsupport@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"ITS Help Desk", location:"Harkins Hall", phone:"(401) 865-2365", email:"itsupport@providence.edu" },
+    profDept:"Mathematics & Computer Science"
   },
   {
     category:"Athletics",
     keywords:["athletics","friars","basketball","hockey","soccer","big east","ncaa","ticket","game","intramural","club sport","coach","athletic scholarship","sports","team","schedule","score","friar","dunkin","amica"],
     response:"Providence College is home to the Friars, a proud member of the Big East Conference competing at the NCAA Division I level across 17 varsity sports. Game schedules, ticket information, team rosters, and coaching staff contacts are all available on the athletics website. Go Friars!",
     url:"https://www.providencecollegeathletics.com",urlLabel:"Go to PC Athletics",
-    escalation:"Department of Athletics · Ruane Friar Development Center · (401) 865-2400"
+    escalationType:"office",
+    officeContact:{ name:"Department of Athletics", location:"Ruane Friar Development Center", phone:"(401) 865-2400", email:null }
   },
   {
     category:"Campus Events",
     keywords:["events","calendar","student activities","organization","club","friar fest","concert","speaker","room reservation","event","slavin","weekend","lecture","what's happening","things to do on campus"],
     response:"Providence College's vibrant campus life is shaped by more than 100 student organizations and a full calendar of cultural, social, athletic, and spiritual events throughout the academic year. The Office of Student Activities maintains the campus events calendar and can assist with room reservations and event planning.",
     url:"https://student-activities.providence.edu/",urlLabel:"View Student Activities",
-    escalation:"Office of Student Activities · Slavin Center · (401) 865-2911 · studentactivities@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Student Activities", location:"Slavin Center", phone:"(401) 865-2911", email:"studentactivities@providence.edu" }
   },
   {
     category:"Career Services",
     keywords:["career","internship","resume","résumé","cv","job","interview","career fair","networking","handshake","graduate school","mentorship","employer","recruit","work","professional","pathways to providence","create a resume","how do i make a resume","write a resume","build a resume","improve my resume","experience","experiences","improve my cv","extracurricular","volunteer","leadership experience","get experience","activities for resume","resume tips","what to put on resume"],
     response:"The Pathways to Providence Career Services team is here to support every stage of your professional development — from crafting a compelling résumé to navigating your job search and graduate school applications. Through our Handshake platform, students have access to thousands of job and internship postings, career fair registrations, and one-on-one advising appointments.",
     url:"https://chirico-career-center.providence.edu/",urlLabel:"Visit Career Services",
-    escalation:"Career Services (Pathways to Providence) · Harkins Hall · (401) 865-2393 · careers@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Career Services (Pathways to Providence)", location:"Harkins Hall", phone:"(401) 865-2393", email:"careers@providence.edu" },
+    profDept:"Management"
   },
   {
     category:"Library",
     keywords:["library","phillips","research","database","journal","interlibrary","ill","study room","citation","librarian","off-campus access","print","reserves","e-book","book","article","source"],
     response:"Phillips Memorial Library is the academic heart of Providence College, offering extensive print and digital collections, research support, study spaces, and technology services. Reference librarians are available in person and by appointment to assist with research at any stage of the writing process.",
     url:"https://library.providence.edu",urlLabel:"Visit the Library",
-    escalation:"Phillips Memorial Library · Reference Desk · (401) 865-2747 · reference@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Phillips Memorial Library", location:"Reference Desk", phone:"(401) 865-2747", email:"reference@providence.edu" },
+    profDept:"English"
   },
   {
     category:"Alumni Relations",
     keywords:["alumni","alum","donation","gift","homecoming","reunion","alumni network","mentor","alumni chapter","transcript","alumni benefits","giving","annual fund","graduate","former student"],
     response:"Once a Friar, always a Friar. Providence College's alumni community spans the globe, and the Office of Alumni Relations is dedicated to keeping graduates connected to the College, to one another, and to the next generation of Friars.",
     url:"https://alumni.providence.edu/",urlLabel:"Visit Alumni Relations",
-    escalation:"Office of Alumni Relations · (401) 865-2434 · alumni@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Alumni Relations", location:null, phone:"(401) 865-2434", email:"alumni@providence.edu" }
   },
   {
     category:"Study Abroad",
     keywords:["study abroad","international","semester abroad","exchange","global studies","rome","oxford","abroad","financial aid abroad","credit transfer","visa","passport","language requirement","global","study abroad deadline","abroad deadline","apply to study abroad","study abroad application","global education deadline","semester abroad deadline","study abroad cost","study abroad requirements"],
     response:"Providence College's Office of Global Studies offers students an extraordinary opportunity to deepen their education through immersive international experiences. From semester-long programs in Rome, Oxford, and beyond to short-term faculty-led trips, the College provides a wide range of options to suit different academic goals and budgets.",
     url:"https://global-education.providence.edu/",urlLabel:"Explore Study Abroad",
-    escalation:"Office of Global Studies · Harkins Hall · (401) 865-2474 · globalprograms@providence.edu"
+    escalationType:"office",
+    officeContact:{ name:"Office of Global Studies", location:"Harkins Hall", phone:"(401) 865-2474", email:"globalprograms@providence.edu" },
+    profDept:"World Languages & Cultures"
   },
   {
     category:"Pizza Near Campus",
     keywords:["pizza","best pizza","pizza place","pizza near","pizza in providence","pizza near campus","slice","pepperoni","calzone"],
     response:"Providence has a fantastic pizza scene! Click below to see the top-rated pizza spots near Providence College on Google Maps — with live ratings, hours, and directions.",
     url:"https://www.google.com/maps/search/best+pizza+near+Providence+College+Providence+RI",
-    urlLabel:"Find Pizza on Google Maps ↗",escalation:null
+    urlLabel:"Find Pizza on Google Maps ↗", escalationType:null
   },
   {
     category:"Local Area Guide",
     keywords:["restaurant","food","federal hill","atwells","things to do","day trip","newport","boston","weekend","off campus","explore","coffee","eat out","waterfront","local","nearby","mystic","block island","cape cod","bar","nightlife","roger williams","park","around providence"],
     response:"Providence is a vibrant, walkable city with a nationally recognized food scene and easy access to some of New England's most beloved destinations.<br><br><strong>🍽 Restaurants Near Campus</strong><br><em>Federal Hill / Atwells Ave</em> — Siena ($$$), Cassarino's ($$), Venda Ravioli ($), Al Forno ($$$$)<br><em>Downtown</em> — Gracie's ($$$$), Waterman Grille ($$$)<br><br><strong>🗺 Day Trips</strong><br>• Newport, RI (~45 min) &nbsp;• Boston, MA (~1 hr) &nbsp;• Mystic, CT (~50 min)<br>• Block Island (~2 hrs) &nbsp;• Cape Cod (~1.5 hrs) &nbsp;• Roger Williams Park (~10 min)",
-    url:"https://www.goprovidence.com",urlLabel:"Explore GoProvidence.com",escalation:null
+    url:"https://www.goprovidence.com",urlLabel:"Explore GoProvidence.com", escalationType:null
   }
 ];
 
+// ── Course Advisor ────────────────────────────────────────────────────────────
+// PC curriculum requirements by major+year. dept must match a CSV "department" value.
+const CURRICULUM = {
+  finance: {
+    1: [
+      { course:"Financial Accounting",         code:"ACC 201", dept:"Accountancy" },
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"Microeconomics",               code:"ECO 201", dept:"Economics" },
+      { course:"Business Communication",       code:"MGT 100", dept:"Management" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" }
+    ],
+    2: [
+      { course:"Managerial Accounting",        code:"ACC 202", dept:"Accountancy" },
+      { course:"Macroeconomics",               code:"ECO 202", dept:"Economics" },
+      { course:"Corporate Finance",            code:"FIN 301", dept:"Finance" },
+      { course:"Statistics for Business",      code:"MAT 201", dept:"Mathematics & Computer Science" },
+      { course:"Business Law",                 code:"MGT 230", dept:"Management" }
+    ],
+    3: [
+      { course:"Investments",                  code:"FIN 350", dept:"Finance" },
+      { course:"Financial Markets",            code:"FIN 325", dept:"Finance" },
+      { course:"Econometrics",                 code:"ECO 310", dept:"Economics" },
+      { course:"Financial Statement Analysis", code:"FIN 360", dept:"Finance" },
+      { course:"Ethics in Business",           code:"MGT 310", dept:"Management" }
+    ],
+    4: [
+      { course:"Advanced Corporate Finance",   code:"FIN 450", dept:"Finance" },
+      { course:"Portfolio Management",         code:"FIN 455", dept:"Finance" },
+      { course:"International Finance",        code:"FIN 420", dept:"Finance" },
+      { course:"Senior Seminar in Finance",    code:"FIN 490", dept:"Finance" }
+    ]
+  },
+  accounting: {
+    1: [
+      { course:"Financial Accounting",         code:"ACC 201", dept:"Accountancy" },
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"Microeconomics",               code:"ECO 201", dept:"Economics" },
+      { course:"Business Communication",       code:"MGT 100", dept:"Management" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" }
+    ],
+    2: [
+      { course:"Managerial Accounting",        code:"ACC 202", dept:"Accountancy" },
+      { course:"Intermediate Accounting I",    code:"ACC 301", dept:"Accountancy" },
+      { course:"Corporate Finance",            code:"FIN 301", dept:"Finance" },
+      { course:"Macroeconomics",               code:"ECO 202", dept:"Economics" },
+      { course:"Business Law",                 code:"MGT 230", dept:"Management" }
+    ],
+    3: [
+      { course:"Intermediate Accounting II",   code:"ACC 302", dept:"Accountancy" },
+      { course:"Cost Accounting",              code:"ACC 310", dept:"Accountancy" },
+      { course:"Auditing",                     code:"ACC 350", dept:"Accountancy" },
+      { course:"Tax Accounting I",             code:"ACC 320", dept:"Accountancy" },
+      { course:"Ethics in Business",           code:"MGT 310", dept:"Management" }
+    ],
+    4: [
+      { course:"Advanced Accounting",          code:"ACC 401", dept:"Accountancy" },
+      { course:"Tax Accounting II",            code:"ACC 421", dept:"Accountancy" },
+      { course:"Accounting Info Systems",      code:"ACC 430", dept:"Accountancy" },
+      { course:"Senior Seminar in Accounting", code:"ACC 490", dept:"Accountancy" }
+    ]
+  },
+  management: {
+    1: [
+      { course:"Intro to Management",          code:"MGT 101", dept:"Management" },
+      { course:"Financial Accounting",         code:"ACC 201", dept:"Accountancy" },
+      { course:"Microeconomics",               code:"ECO 201", dept:"Economics" },
+      { course:"Business Communication",       code:"MGT 100", dept:"Management" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" }
+    ],
+    2: [
+      { course:"Organizational Behavior",      code:"MGT 220", dept:"Management" },
+      { course:"Corporate Finance",            code:"FIN 301", dept:"Finance" },
+      { course:"Managerial Accounting",        code:"ACC 202", dept:"Accountancy" },
+      { course:"Marketing Principles",         code:"MKT 201", dept:"Marketing" },
+      { course:"Business Law",                 code:"MGT 230", dept:"Management" }
+    ],
+    3: [
+      { course:"Strategic Management",         code:"MGT 350", dept:"Management" },
+      { course:"Human Resource Management",    code:"MGT 325", dept:"Management" },
+      { course:"Operations Management",        code:"MGT 310", dept:"Management" },
+      { course:"Leadership & Ethics",          code:"MGT 340", dept:"Management" },
+      { course:"Entrepreneurship",             code:"MGT 360", dept:"Management" }
+    ],
+    4: [
+      { course:"Corporate Strategy",           code:"MGT 450", dept:"Management" },
+      { course:"Organizational Change",        code:"MGT 440", dept:"Management" },
+      { course:"Global Business",              code:"MGT 420", dept:"Management" },
+      { course:"Senior Seminar in Mgmt",       code:"MGT 490", dept:"Management" }
+    ]
+  },
+  marketing: {
+    1: [
+      { course:"Marketing Principles",         code:"MKT 201", dept:"Marketing" },
+      { course:"Financial Accounting",         code:"ACC 201", dept:"Accountancy" },
+      { course:"Microeconomics",               code:"ECO 201", dept:"Economics" },
+      { course:"Business Communication",       code:"MGT 100", dept:"Management" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" }
+    ],
+    2: [
+      { course:"Consumer Behavior",            code:"MKT 310", dept:"Marketing" },
+      { course:"Marketing Research",           code:"MKT 320", dept:"Marketing" },
+      { course:"Corporate Finance",            code:"FIN 301", dept:"Finance" },
+      { course:"Managerial Accounting",        code:"ACC 202", dept:"Accountancy" },
+      { course:"Business Law",                 code:"MGT 230", dept:"Management" }
+    ],
+    3: [
+      { course:"Digital Marketing",            code:"MKT 350", dept:"Marketing" },
+      { course:"Brand Management",             code:"MKT 360", dept:"Marketing" },
+      { course:"Advertising & Promotion",      code:"MKT 340", dept:"Marketing" },
+      { course:"Sales Management",             code:"MKT 330", dept:"Marketing" },
+      { course:"Ethics in Business",           code:"MGT 310", dept:"Management" }
+    ],
+    4: [
+      { course:"Strategic Marketing",          code:"MKT 450", dept:"Marketing" },
+      { course:"Global Marketing",             code:"MKT 420", dept:"Marketing" },
+      { course:"Marketing Analytics",          code:"MKT 460", dept:"Marketing" },
+      { course:"Senior Seminar in Marketing",  code:"MKT 490", dept:"Marketing" }
+    ]
+  },
+  cs: {
+    1: [
+      { course:"Intro to Programming",         code:"CSC 110", dept:"Mathematics & Computer Science" },
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"Discrete Mathematics",         code:"MAT 212", dept:"Mathematics & Computer Science" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" }
+    ],
+    2: [
+      { course:"Data Structures",              code:"CSC 220", dept:"Mathematics & Computer Science" },
+      { course:"Calculus II",                  code:"MAT 132", dept:"Mathematics & Computer Science" },
+      { course:"Linear Algebra",               code:"MAT 231", dept:"Mathematics & Computer Science" },
+      { course:"Computer Organization",        code:"CSC 230", dept:"Mathematics & Computer Science" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Algorithms",                   code:"CSC 320", dept:"Mathematics & Computer Science" },
+      { course:"Operating Systems",            code:"CSC 330", dept:"Mathematics & Computer Science" },
+      { course:"Database Systems",             code:"CSC 340", dept:"Mathematics & Computer Science" },
+      { course:"Software Engineering",         code:"CSC 350", dept:"Mathematics & Computer Science" },
+      { course:"Probability & Statistics",     code:"MAT 310", dept:"Mathematics & Computer Science" }
+    ],
+    4: [
+      { course:"Programming Languages",        code:"CSC 420", dept:"Mathematics & Computer Science" },
+      { course:"Computer Networks",            code:"CSC 430", dept:"Mathematics & Computer Science" },
+      { course:"Machine Learning",             code:"CSC 450", dept:"Mathematics & Computer Science" },
+      { course:"Senior Project in CS",         code:"CSC 490", dept:"Mathematics & Computer Science" }
+    ]
+  },
+  math: {
+    1: [
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"Intro to CS",                  code:"CSC 110", dept:"Mathematics & Computer Science" },
+      { course:"Philosophy of Logic",          code:"PHI 115", dept:"Philosophy" }
+    ],
+    2: [
+      { course:"Calculus II",                  code:"MAT 132", dept:"Mathematics & Computer Science" },
+      { course:"Calculus III",                 code:"MAT 231", dept:"Mathematics & Computer Science" },
+      { course:"Discrete Mathematics",         code:"MAT 212", dept:"Mathematics & Computer Science" },
+      { course:"Linear Algebra",               code:"MAT 241", dept:"Mathematics & Computer Science" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Real Analysis",                code:"MAT 310", dept:"Mathematics & Computer Science" },
+      { course:"Abstract Algebra",             code:"MAT 320", dept:"Mathematics & Computer Science" },
+      { course:"Probability",                  code:"MAT 330", dept:"Mathematics & Computer Science" },
+      { course:"Differential Equations",       code:"MAT 350", dept:"Mathematics & Computer Science" },
+      { course:"Mathematical Statistics",      code:"MAT 360", dept:"Mathematics & Computer Science" }
+    ],
+    4: [
+      { course:"Complex Analysis",             code:"MAT 420", dept:"Mathematics & Computer Science" },
+      { course:"Topology",                     code:"MAT 430", dept:"Mathematics & Computer Science" },
+      { course:"Numerical Analysis",           code:"MAT 450", dept:"Mathematics & Computer Science" },
+      { course:"Senior Seminar in Math",       code:"MAT 490", dept:"Mathematics & Computer Science" }
+    ]
+  },
+  biology: {
+    1: [
+      { course:"General Biology I",            code:"BIO 101", dept:"Biology" },
+      { course:"General Chemistry I",          code:"CHM 111", dept:"Chemistry & Biochemistry" },
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" }
+    ],
+    2: [
+      { course:"General Biology II",           code:"BIO 102", dept:"Biology" },
+      { course:"General Chemistry II",         code:"CHM 112", dept:"Chemistry & Biochemistry" },
+      { course:"Cell Biology",                 code:"BIO 220", dept:"Biology" },
+      { course:"Genetics",                     code:"BIO 230", dept:"Biology" },
+      { course:"Biostatistics",                code:"MAT 220", dept:"Mathematics & Computer Science" }
+    ],
+    3: [
+      { course:"Ecology",                      code:"BIO 310", dept:"Biology" },
+      { course:"Physiology",                   code:"BIO 320", dept:"Biology" },
+      { course:"Organic Chemistry I",          code:"CHM 221", dept:"Chemistry & Biochemistry" },
+      { course:"Evolution",                    code:"BIO 330", dept:"Biology" },
+      { course:"Research Methods in Biology",  code:"BIO 340", dept:"Biology" }
+    ],
+    4: [
+      { course:"Molecular Biology",            code:"BIO 420", dept:"Biology" },
+      { course:"Neurobiology",                 code:"BIO 430", dept:"Biology" },
+      { course:"Senior Research",              code:"BIO 490", dept:"Biology" },
+      { course:"Organic Chemistry II",         code:"CHM 222", dept:"Chemistry & Biochemistry" }
+    ]
+  },
+  biochemistry: {
+    1: [
+      { course:"General Chemistry I",          code:"CHM 111", dept:"Chemistry & Biochemistry" },
+      { course:"General Biology I",            code:"BIO 101", dept:"Biology" },
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" }
+    ],
+    2: [
+      { course:"General Chemistry II",         code:"CHM 112", dept:"Chemistry & Biochemistry" },
+      { course:"Organic Chemistry I",          code:"CHM 221", dept:"Chemistry & Biochemistry" },
+      { course:"Cell Biology",                 code:"BIO 220", dept:"Biology" },
+      { course:"Calculus II",                  code:"MAT 132", dept:"Mathematics & Computer Science" },
+      { course:"Physics for Sci",              code:"PHY 111", dept:"Engineering & Physics" }
+    ],
+    3: [
+      { course:"Organic Chemistry II",         code:"CHM 222", dept:"Chemistry & Biochemistry" },
+      { course:"Biochemistry I",               code:"CHM 310", dept:"Chemistry & Biochemistry" },
+      { course:"Genetics",                     code:"BIO 230", dept:"Biology" },
+      { course:"Physical Chemistry",           code:"CHM 320", dept:"Chemistry & Biochemistry" },
+      { course:"Analytical Chemistry",         code:"CHM 330", dept:"Chemistry & Biochemistry" }
+    ],
+    4: [
+      { course:"Biochemistry II",              code:"CHM 410", dept:"Chemistry & Biochemistry" },
+      { course:"Molecular Biology",            code:"BIO 420", dept:"Biology" },
+      { course:"Advanced Lab Techniques",      code:"CHM 440", dept:"Chemistry & Biochemistry" },
+      { course:"Senior Research",              code:"CHM 490", dept:"Chemistry & Biochemistry" }
+    ]
+  },
+  nursing: {
+    1: [
+      { course:"Foundations of Nursing",       code:"NUR 100", dept:"Nursing" },
+      { course:"Anatomy & Physiology I",       code:"BIO 141", dept:"Biology" },
+      { course:"General Chemistry I",          code:"CHM 111", dept:"Chemistry & Biochemistry" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" }
+    ],
+    2: [
+      { course:"Health Assessment",            code:"NUR 210", dept:"Nursing" },
+      { course:"Anatomy & Physiology II",      code:"BIO 142", dept:"Biology" },
+      { course:"Pathophysiology",              code:"NUR 220", dept:"Nursing" },
+      { course:"Nutrition & Health",           code:"NUR 215", dept:"Nursing" },
+      { course:"Microbiology",                 code:"BIO 230", dept:"Biology" }
+    ],
+    3: [
+      { course:"Medical-Surgical Nursing I",   code:"NUR 310", dept:"Nursing" },
+      { course:"Pharmacology",                 code:"NUR 320", dept:"Nursing" },
+      { course:"Pediatric Nursing",            code:"NUR 330", dept:"Nursing" },
+      { course:"Mental Health Nursing",        code:"NUR 340", dept:"Nursing" },
+      { course:"Research in Nursing",          code:"NUR 350", dept:"Nursing" }
+    ],
+    4: [
+      { course:"Medical-Surgical Nursing II",  code:"NUR 410", dept:"Nursing" },
+      { course:"Community Health Nursing",     code:"NUR 420", dept:"Nursing" },
+      { course:"Nursing Leadership",           code:"NUR 430", dept:"Nursing" },
+      { course:"Senior Clinical Practicum",    code:"NUR 490", dept:"Nursing" }
+    ]
+  },
+  psychology: {
+    1: [
+      { course:"Introduction to Psychology",   code:"PSY 101", dept:"Psychology" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"Statistics for Psychology",    code:"PSY 201", dept:"Psychology" },
+      { course:"Biology for Behavioral Sci",   code:"BIO 101", dept:"Biology" }
+    ],
+    2: [
+      { course:"Research Methods in Psych",    code:"PSY 220", dept:"Psychology" },
+      { course:"Developmental Psychology",     code:"PSY 230", dept:"Psychology" },
+      { course:"Abnormal Psychology",          code:"PSY 240", dept:"Psychology" },
+      { course:"Social Psychology",            code:"PSY 250", dept:"Psychology" },
+      { course:"Cognitive Psychology",         code:"PSY 260", dept:"Psychology" }
+    ],
+    3: [
+      { course:"Biological Psychology",        code:"PSY 310", dept:"Psychology" },
+      { course:"Personality Theories",         code:"PSY 320", dept:"Psychology" },
+      { course:"Clinical Psychology",          code:"PSY 330", dept:"Psychology" },
+      { course:"Health Psychology",            code:"PSY 340", dept:"Psychology" },
+      { course:"Child Psychopathology",        code:"PSY 350", dept:"Psychology" }
+    ],
+    4: [
+      { course:"Advanced Research Methods",    code:"PSY 420", dept:"Psychology" },
+      { course:"Neuropsychology",              code:"PSY 430", dept:"Psychology" },
+      { course:"Ethics in Psychology",         code:"PSY 440", dept:"Psychology" },
+      { course:"Senior Seminar in Psych",      code:"PSY 490", dept:"Psychology" }
+    ]
+  },
+  economics: {
+    1: [
+      { course:"Microeconomics",               code:"ECO 201", dept:"Economics" },
+      { course:"Calculus I",                   code:"MAT 131", dept:"Mathematics & Computer Science" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"Statistics",                   code:"MAT 201", dept:"Mathematics & Computer Science" }
+    ],
+    2: [
+      { course:"Macroeconomics",               code:"ECO 202", dept:"Economics" },
+      { course:"Intermediate Microeconomics",  code:"ECO 310", dept:"Economics" },
+      { course:"Financial Accounting",         code:"ACC 201", dept:"Accountancy" },
+      { course:"Econometrics I",               code:"ECO 320", dept:"Economics" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Intermediate Macroeconomics",  code:"ECO 315", dept:"Economics" },
+      { course:"Econometrics II",              code:"ECO 420", dept:"Economics" },
+      { course:"Labor Economics",              code:"ECO 330", dept:"Economics" },
+      { course:"Industrial Organization",      code:"ECO 340", dept:"Economics" },
+      { course:"International Economics",      code:"ECO 350", dept:"Economics" }
+    ],
+    4: [
+      { course:"Advanced Microeconomics",      code:"ECO 410", dept:"Economics" },
+      { course:"Advanced Macroeconomics",      code:"ECO 415", dept:"Economics" },
+      { course:"Economic Development",         code:"ECO 440", dept:"Economics" },
+      { course:"Senior Seminar in Economics",  code:"ECO 490", dept:"Economics" }
+    ]
+  },
+  political_science: {
+    1: [
+      { course:"Intro to Political Science",   code:"POL 101", dept:"Political Science" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"American Government",          code:"POL 110", dept:"Political Science" },
+      { course:"Intro to International Rel.",  code:"POL 120", dept:"Political Science" }
+    ],
+    2: [
+      { course:"Comparative Politics",         code:"POL 220", dept:"Political Science" },
+      { course:"Political Theory",             code:"POL 230", dept:"Political Science" },
+      { course:"Research Methods in PolSci",   code:"POL 240", dept:"Political Science" },
+      { course:"Constitutional Law",           code:"POL 250", dept:"Political Science" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Public Policy",                code:"POL 320", dept:"Political Science" },
+      { course:"International Security",       code:"POL 330", dept:"Political Science" },
+      { course:"Political Economy",            code:"POL 340", dept:"Political Science" },
+      { course:"Democratic Theory",            code:"POL 350", dept:"Political Science" },
+      { course:"Global Governance",            code:"POL 360", dept:"Political Science" }
+    ],
+    4: [
+      { course:"Advanced Political Theory",    code:"POL 420", dept:"Political Science" },
+      { course:"Seminar: Comparative Politics",code:"POL 430", dept:"Political Science" },
+      { course:"Senior Thesis in Poli Sci",    code:"POL 490", dept:"Political Science" },
+      { course:"Capstone: Policy Analysis",    code:"POL 480", dept:"Political Science" }
+    ]
+  },
+  history: {
+    1: [
+      { course:"Western Civilization I",       code:"HIS 101", dept:"History & Classics" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"World History",                code:"HIS 110", dept:"History & Classics" },
+      { course:"Intro to Philosophy",          code:"PHI 101", dept:"Philosophy" }
+    ],
+    2: [
+      { course:"Western Civilization II",      code:"HIS 102", dept:"History & Classics" },
+      { course:"American History",             code:"HIS 201", dept:"History & Classics" },
+      { course:"Research & Historical Methods",code:"HIS 210", dept:"History & Classics" },
+      { course:"World Religions",              code:"THE 201", dept:"Theology" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Modern Europe",                code:"HIS 320", dept:"History & Classics" },
+      { course:"Post-Colonial History",        code:"HIS 330", dept:"History & Classics" },
+      { course:"Historiography",               code:"HIS 340", dept:"History & Classics" },
+      { course:"Senior Elective History I",    code:"HIS 350", dept:"History & Classics" },
+      { course:"Political Philosophy",         code:"PHI 315", dept:"Philosophy" }
+    ],
+    4: [
+      { course:"Senior Seminar in History",    code:"HIS 490", dept:"History & Classics" },
+      { course:"Thesis Research",              code:"HIS 495", dept:"History & Classics" },
+      { course:"Contemporary World History",   code:"HIS 440", dept:"History & Classics" },
+      { course:"Senior Elective History II",   code:"HIS 450", dept:"History & Classics" }
+    ]
+  },
+  english: {
+    1: [
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"Introduction to Literature",   code:"ENG 110", dept:"English" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Intro to Philosophy",          code:"PHI 101", dept:"Philosophy" },
+      { course:"World History",                code:"HIS 110", dept:"History & Classics" }
+    ],
+    2: [
+      { course:"British Literature I",         code:"ENG 220", dept:"English" },
+      { course:"American Literature I",        code:"ENG 230", dept:"English" },
+      { course:"Grammar & Style",              code:"ENG 240", dept:"English" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" },
+      { course:"World Literature",             code:"ENG 250", dept:"English" }
+    ],
+    3: [
+      { course:"Shakespeare",                  code:"ENG 310", dept:"English" },
+      { course:"Modern Novel",                 code:"ENG 320", dept:"English" },
+      { course:"Creative Writing",             code:"ENG 330", dept:"English" },
+      { course:"Literary Theory & Criticism",  code:"ENG 340", dept:"English" },
+      { course:"Contemporary Poetry",          code:"ENG 350", dept:"English" }
+    ],
+    4: [
+      { course:"Senior Seminar in English",    code:"ENG 490", dept:"English" },
+      { course:"Advanced Creative Writing",    code:"ENG 440", dept:"English" },
+      { course:"Post-Colonial Literature",     code:"ENG 420", dept:"English" },
+      { course:"Capstone Research Paper",      code:"ENG 495", dept:"English" }
+    ]
+  },
+  sociology: {
+    1: [
+      { course:"Introduction to Sociology",    code:"SOC 101", dept:"Sociology & Anthropology" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"Social Problems",              code:"SOC 110", dept:"Sociology & Anthropology" },
+      { course:"Intro to Anthropology",        code:"SOC 120", dept:"Sociology & Anthropology" }
+    ],
+    2: [
+      { course:"Sociological Theory",          code:"SOC 220", dept:"Sociology & Anthropology" },
+      { course:"Research Methods in Soc",      code:"SOC 230", dept:"Sociology & Anthropology" },
+      { course:"Race & Ethnicity",             code:"SOC 240", dept:"Sociology & Anthropology" },
+      { course:"Gender & Society",             code:"SOC 250", dept:"Women's & Gender Studies" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Social Stratification",        code:"SOC 320", dept:"Sociology & Anthropology" },
+      { course:"Urban Sociology",              code:"SOC 330", dept:"Sociology & Anthropology" },
+      { course:"Criminology",                  code:"SOC 340", dept:"Sociology & Anthropology" },
+      { course:"Global Inequalities",          code:"SOC 350", dept:"Sociology & Anthropology" },
+      { course:"Political Sociology",          code:"SOC 360", dept:"Sociology & Anthropology" }
+    ],
+    4: [
+      { course:"Advanced Sociological Theory", code:"SOC 420", dept:"Sociology & Anthropology" },
+      { course:"Senior Seminar in Sociology",  code:"SOC 490", dept:"Sociology & Anthropology" },
+      { course:"Qualitative Research Methods", code:"SOC 440", dept:"Sociology & Anthropology" },
+      { course:"Senior Thesis",                code:"SOC 495", dept:"Sociology & Anthropology" }
+    ]
+  },
+  education: {
+    1: [
+      { course:"Introduction to Education",    code:"EDU 101", dept:"Elementary & Special Education" },
+      { course:"DWC 101",                      code:"DWC 101", dept:"Humanities" },
+      { course:"Writing & Rhetoric",           code:"ENG 101", dept:"English" },
+      { course:"Child Development",            code:"EDU 110", dept:"Elementary & Special Education" },
+      { course:"Intro to Psychology",          code:"PSY 101", dept:"Psychology" }
+    ],
+    2: [
+      { course:"Curriculum & Instruction",     code:"EDU 220", dept:"Elementary & Special Education" },
+      { course:"Educational Psychology",       code:"EDU 230", dept:"Elementary & Special Education" },
+      { course:"Literacy Development",         code:"EDU 240", dept:"Elementary & Special Education" },
+      { course:"Diversity in Education",       code:"EDU 250", dept:"Secondary Education" },
+      { course:"Ethics & Society",             code:"PHI 215", dept:"Philosophy" }
+    ],
+    3: [
+      { course:"Special Education Methods",    code:"EDU 310", dept:"Elementary & Special Education" },
+      { course:"Assessment & Evaluation",      code:"EDU 320", dept:"Secondary Education" },
+      { course:"Classroom Management",         code:"EDU 330", dept:"Elementary & Special Education" },
+      { course:"STEM Methods for K-8",         code:"EDU 340", dept:"Elementary & Special Education" },
+      { course:"Field Placement I",            code:"EDU 350", dept:"Secondary Education" }
+    ],
+    4: [
+      { course:"Student Teaching Practicum",   code:"EDU 410", dept:"Elementary & Special Education" },
+      { course:"Field Placement II",           code:"EDU 420", dept:"Secondary Education" },
+      { course:"Capstone Seminar in Education",code:"EDU 490", dept:"Elementary & Special Education" },
+      { course:"Inclusive Classroom Strategies",code:"EDU 450", dept:"Elementary & Special Education" }
+    ]
+  }
+};
+
+// Greedy pick: highest-rated prof in dept not yet used
+function getBestProf(dept, usedProfs) {
+  if (!facultyData.length) return null;
+  const dl = dept.toLowerCase();
+  let candidates = facultyData.filter(r => {
+    const rmp = parseFloat(r["RateMyProfessor"]);
+    const n   = parseInt(r["rmp_num_ratings"]) || 0;
+    return (r["department"] || "").toLowerCase() === dl
+      && !isNaN(rmp) && rmp > 0 && n >= 3
+      && !usedProfs.has(r["name"]);
+  });
+  if (!candidates.length) {
+    candidates = facultyData.filter(r => {
+      const rmp = parseFloat(r["RateMyProfessor"]);
+      return (r["department"] || "").toLowerCase() === dl
+        && !isNaN(rmp) && rmp > 0 && !usedProfs.has(r["name"]);
+    });
+  }
+  if (!candidates.length) return null;
+  return candidates.sort((a,b) => parseFloat(b["RateMyProfessor"]) - parseFloat(a["RateMyProfessor"]))[0];
+}
+
+function rmpBadge(score) {
+  const s = parseFloat(score);
+  if (isNaN(s) || s === 0) return { cls:"rmp-none", label:"No rating" };
+  if (s >= 4.0) return { cls:"rmp-high", label:`⭐ ${s.toFixed(1)}` };
+  if (s >= 3.0) return { cls:"rmp-mid",  label:`⭐ ${s.toFixed(1)}` };
+  return               { cls:"rmp-low",  label:`⭐ ${s.toFixed(1)}` };
+}
+
+function runAdvisor() {
+  const major = document.getElementById("advisorMajor").value;
+  const year  = parseInt(document.getElementById("advisorYear").value);
+  if (!major || !year) { alert("Please select both a major and a year."); return; }
+
+  const majorLabel = document.getElementById("advisorMajor").selectedOptions[0].text;
+  const yearLabel  = document.getElementById("advisorYear").selectedOptions[0].text;
+  closeAdvisor();
+
+  const slots = (CURRICULUM[major] && CURRICULUM[major][year]) || [];
+  appendMsg("user", `📅 Course Advisor: ${majorLabel} · ${yearLabel}`);
+
+  if (!slots.length) {
+    appendMsg("bot", `<p>No curriculum data found for <strong>${majorLabel}</strong>, year ${year}.</p>`);
+    return;
+  }
+
+  const t = addTyping();
+  setTimeout(() => {
+    t.remove();
+    const usedProfs = new Set();
+    const picks = [];
+    const max = Math.min(5, slots.length);
+    for (let i = 0; i < max; i++) {
+      const slot = slots[i];
+      const prof = getBestProf(slot.dept, usedProfs);
+      if (prof) usedProfs.add(prof["name"]);
+      picks.push({ slot, prof });
+    }
+
+    const rows = picks.map((p, i) => {
+      const { slot, prof } = p;
+      let profName = "TBD — check schedule";
+      let badge = rmpBadge(null);
+      let rmpA  = "";
+      if (prof) {
+        profName = prof["name"];
+        badge = rmpBadge(prof["RateMyProfessor"]);
+        if (prof["rmp_url"]) rmpA = ` <a href="${prof["rmp_url"]}" target="_blank" style="color:var(--navy);font-size:11px;">[RMP ↗]</a>`;
+      }
+      return `<div class="schedule-row">
+        <div class="schedule-num">${i+1}</div>
+        <div class="schedule-info">
+          <div class="schedule-course">${slot.code} — ${slot.course}</div>
+          <div class="schedule-prof">👤 ${profName}${rmpA}</div>
+        </div>
+        <div class="schedule-rmp ${badge.cls}">${badge.label}</div>
+      </div>`;
+    }).join("");
+
+    appendMsg("bot", `
+      <span class="resp-label gold">📅 Recommended Schedule</span>
+      <p><strong>${majorLabel}</strong> · ${yearLabel}</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:-2px;">Greedy pick: highest-rated available professor for each required course — no professor repeats.</p>
+      <div class="schedule-card">
+        <div class="schedule-card-header">Next Semester — ${max} Courses</div>
+        ${rows}
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px;">Course list reflects standard PC curriculum requirements. Confirm section availability with your advisor.</p>
+      <a class="src-link" href="https://registrar.providence.edu/" target="_blank">Confirm with Registrar ↗</a>`);
+
+    document.getElementById("feed").scrollIntoView({behavior:"smooth"});
+  }, 900);
+}
+
+function openAdvisor()  { document.getElementById("advisorOverlay").classList.add("open"); }
+function closeAdvisor() { document.getElementById("advisorOverlay").classList.remove("open"); }
+document.getElementById("advisorOverlay").addEventListener("click", function(e) {
+  if (e.target === this) closeAdvisor();
+});
+
+// ── Faculty CSV ───────────────────────────────────────────────────────────────
+let facultyData = [];
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) return [];
+  function parseLine(line) {
+    const fields = []; let cur = "", inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { fields.push(cur); cur = ""; }
+      else { cur += c; }
+    }
+    fields.push(cur); return fields;
+  }
+  const headers = parseLine(lines[0]).map(h => h.replace(/^\uFEFF/, "").trim());
+  return lines.slice(1).map(line => {
+    const vals = parseLine(line); const obj = {};
+    headers.forEach((h, i) => { obj[h] = (vals[i] || "").trim(); });
+    return obj;
+  });
+}
+
+// ── Matching engine ───────────────────────────────────────────────────────────
 function matchIntent(text) {
   const lower = text.toLowerCase();
+
+  // Trigger the Course Advisor modal for schedule/class recommendation queries
+  if (lower.includes("course advisor") ||
+      lower.includes("what classes should i take") ||
+      lower.includes("class recommendation") ||
+      (lower.includes("recommend") && lower.includes("class")) ||
+      (lower.includes("plan") && lower.includes("semester") && !lower.includes("registration"))) {
+    openAdvisor(); return "__advisor__";
+  }
+
   if (lower.includes("abroad") || lower.includes("global education") || lower.includes("study abroad"))
     return INTENTS.find(i => i.category === "Study Abroad");
   if (lower.includes("pizza") || lower.includes("slice") || lower.includes("calzone"))
@@ -584,24 +1351,160 @@ function addTyping() {
   return row;
 }
 
+// ── Watson-style escalation router ───────────────────────────────────────────
+// Decides: office only, professor only, or both — based on the intent type
+// and signals in the user's question text.
+function getTopProfForDept(dept) {
+  if (!facultyData.length) return null;
+  const deptLower = dept.toLowerCase();
+  const matches = facultyData.filter(p => {
+    const pd = (p.department || "").toLowerCase();
+    return pd === deptLower || pd.includes(deptLower) || deptLower.includes(pd);
+  });
+  if (!matches.length) return null;
+  // Sort by RateMyProfessor descending, tiebreak by number of ratings
+  matches.sort((a, b) => {
+    const ra = parseFloat(a.RateMyProfessor) || 0;
+    const rb = parseFloat(b.RateMyProfessor) || 0;
+    if (rb !== ra) return rb - ra;
+    return (parseInt(b.rmp_num_ratings) || 0) - (parseInt(a.rmp_num_ratings) || 0);
+  });
+  return matches[0];
+}
+
+function rmpEscBadge(score) {
+  const n = parseFloat(score);
+  if (!n) return '';
+  const cls = n >= 4 ? 'rmp-high' : n >= 3 ? 'rmp-mid' : 'rmp-low';
+  return `<span class="esc-rmp-badge ${cls}">★ ${n.toFixed(1)}</span>`;
+}
+
+function officeBlock(o) {
+  const parts = [];
+  if (o.location) parts.push(o.location);
+  if (o.phone)    parts.push(`<a href="tel:${o.phone}">${o.phone}</a>`);
+  if (o.email)    parts.push(`<a href="mailto:${o.email}">${o.email}</a>`);
+  return `<div class="esc-route">
+    <div class="esc-route-header office">🏛 Contact the Office</div>
+    <div class="esc-route-body">
+      <div class="esc-name">${o.name}</div>
+      <div class="esc-detail">${parts.join(' · ')}</div>
+    </div>
+  </div>`;
+}
+
+function profBlock(prof) {
+  const rmp = rmpEscBadge(prof.RateMyProfessor);
+  const emailLink = prof.email ? `<a href="mailto:${prof.email}">${prof.email}</a>` : '';
+  const rmpLink = prof.rmp_url ? ` · <a href="${prof.rmp_url}" target="_blank">RateMyProfessors ↗</a>` : '';
+  return `<div class="esc-route">
+    <div class="esc-route-header prof">👩‍🏫 Talk to a Professor</div>
+    <div class="esc-route-body">
+      <div class="esc-name">${prof.name}${rmp}</div>
+      <div class="esc-detail">${prof.position || prof.department}${emailLink ? ' · ' + emailLink : ''}${rmpLink}</div>
+    </div>
+  </div>`;
+}
+
+function dualBlock(o, prof) {
+  const rmp = rmpEscBadge(prof.RateMyProfessor);
+  const oparts = [];
+  if (o.location) oparts.push(o.location);
+  if (o.phone)    oparts.push(`<a href="tel:${o.phone}">${o.phone}</a>`);
+  if (o.email)    oparts.push(`<a href="mailto:${o.email}">${o.email}</a>`);
+  const emailLink = prof.email ? `<a href="mailto:${prof.email}">${prof.email}</a>` : '';
+  const rmpLink = prof.rmp_url ? ` · <a href="${prof.rmp_url}" target="_blank">RMP ↗</a>` : '';
+  return `<div class="esc-route-dual">
+    <div class="esc-pane">
+      <div class="esc-pane-label office">🏛 Office</div>
+      <div class="esc-pane-name">${o.name}</div>
+      <div class="esc-pane-detail">${oparts.join(' · ')}</div>
+    </div>
+    <div class="esc-pane">
+      <div class="esc-pane-label prof">👩‍🏫 Professor</div>
+      <div class="esc-pane-name">${prof.name}${rmp}</div>
+      <div class="esc-pane-detail">${prof.position || prof.department}${emailLink ? '<br>' + emailLink : ''}${rmpLink}</div>
+    </div>
+  </div>`;
+}
+
+// Keywords that signal the student has an academic / subject-matter question
+// rather than a purely administrative one — Watson routes to a professor
+const PROF_SIGNALS = [
+  "professor","faculty","class","understand","explain","help with","struggling","confused",
+  "assignment","exam","test","grade","extra credit","office hours","syllabus","research",
+  "topic","subject","lecture","paper","project","study","tutor","learn","concept","question about"
+];
+
+function routeEscalation(intent, userText) {
+  if (!intent || !intent.escalationType) return "";
+  const lower = userText.toLowerCase();
+  const wantProf = PROF_SIGNALS.some(s => lower.includes(s));
+
+  const type = intent.escalationType;
+
+  // "both": always show side-by-side office + top professor
+  if (type === "both") {
+    const dept = intent.profDept || "";
+    const prof = dept ? getTopProfForDept(dept) : null;
+    if (prof && intent.officeContact) return dualBlock(intent.officeContact, prof);
+    if (prof) return profBlock(prof);
+    if (intent.officeContact) return officeBlock(intent.officeContact);
+    return "";
+  }
+
+  // "office": if the student's question signals they want a professor, show both
+  if (type === "office") {
+    if (wantProf && intent.profDept) {
+      const prof = getTopProfForDept(intent.profDept);
+      if (prof) return dualBlock(intent.officeContact, prof);
+    }
+    return intent.officeContact ? officeBlock(intent.officeContact) : "";
+  }
+
+  // "professor" (future-proofing)
+  if (type === "professor") {
+    const dept = intent.profDept || "";
+    const prof = dept ? getTopProfForDept(dept) : null;
+    if (prof) return profBlock(prof);
+    return intent.officeContact ? officeBlock(intent.officeContact) : "";
+  }
+
+  return "";
+}
+
+let _lastUserText = "";
+
 function buildResponse(intent) {
+  if (!intent) return buildFallback();
+  const escHtml = routeEscalation(intent, _lastUserText);
   return `<span class="resp-label gold">${intent.category}</span>
 <p>${intent.response}</p>
 <a class="src-link" href="${intent.url}" target="_blank">${intent.urlLabel} ↗</a>
-${intent.escalation ? `<div class="escalation-block"><strong>Need human help?</strong>${intent.escalation}</div>` : ""}`;
+${escHtml ? `<div style="margin-top:4px">${escHtml}</div>` : ""}`;
 }
 
 function buildFallback() {
   return `<p>Thank you for reaching out to Providence College. I wasn't able to find a specific match, but our team is happy to help. Please browse all offices and services for the right contact.</p>
-<a class="src-link" href="https://www.providence.edu/offices-and-services/" target="_blank">Browse All Offices ↗</a>`;
+<a class="src-link" href="https://www.providence.edu/offices-and-services/" target="_blank">Browse All Offices ↗</a>
+<div class="esc-route" style="margin-top:8px">
+  <div class="esc-route-header office">🏛 General Contact</div>
+  <div class="esc-route-body">
+    <div class="esc-name">Providence College Main Office</div>
+    <div class="esc-detail"><a href="tel:+14018651000">(401) 865-1000</a> · <a href="mailto:pcadmit@providence.edu">pcadmit@providence.edu</a></div>
+  </div>
+</div>`;
 }
 
 function handleSend() {
   const text = input.value.trim(); if (!text) return;
   input.value = "";
+  _lastUserText = text;
+  const intent = matchIntent(text);
+  if (intent === "__advisor__") return; // modal opened, no echo needed
   appendMsg("user", text);
   const t = addTyping();
-  setTimeout(() => { t.remove(); appendMsg("bot", buildResponse(matchIntent(text)) || buildFallback()); }, 650);
+  setTimeout(() => { t.remove(); appendMsg("bot", buildResponse(intent)); }, 650);
 }
 
 function ask(text) { input.value = text; handleSend(); }
@@ -618,7 +1521,13 @@ input.addEventListener("keydown", e => { if (e.key === "Enter") handleSend(); })
 document.getElementById("heroInput").addEventListener("keydown", e => { if (e.key === "Enter") heroAsk(); });
 
 window.addEventListener("DOMContentLoaded", () => {
-  appendMsg("bot", `<span class="resp-label">Welcome</span><p>Welcome to <strong>Ask Friar</strong>, Providence College's AI assistant. Ask me about admissions, academics, financial aid, campus life, things to do in Providence, and more.</p><p>How may I assist you today?</p>`);
+  // Load RMP faculty CSV for Course Advisor
+  fetch("providence_college_professors_rmp.csv")
+    .then(r => r.text())
+    .then(text => { facultyData = parseCSV(text); })
+    .catch(() => { /* silently fail — advisor still works, profs show as TBD */ });
+
+  appendMsg("bot", `<span class="resp-label">Welcome</span><p>Welcome to <strong>Ask Friar</strong>, Providence College's AI assistant. Ask me about admissions, academics, financial aid, campus life, things to do in Providence, and more.</p><p>Try the <strong>📅 Course Advisor</strong> — select your major and year for RMP-ranked class picks!</p>`);
 });
 </script>
 </body>
